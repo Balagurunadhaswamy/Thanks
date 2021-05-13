@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+{% csrf_token %}
+<style>
+    #message {
+        background-color: #F7F7F7;
+        width: 588px;
+        height: 248px;
+        text-align: left;
+        border: none;
+        /* border-radius: 25px; */
+        margin-top: 7px;
+    }
+    
+    #name {
+        background-color: #F7F7F7;
+        width: 588px;
+        height: 56px;
+        text-align: left;
+        border: none;
+        /* border-radius: 25px; */
+        /* color: darkblue; */
+        margin-top: 20px;
+    }
+    
+    #button {
+        background: #4447C4 0% 0% no-repeat padding-box;
+        border-radius: 40px;
+        opacity: 1;
+        border: none;
+        /* width: 318px;
+        height: 50px; */
+        color: white;
+        font-size: 20px;
+        text-align: center;
+        margin-top: 10px;
+    }
+    
+    .center {
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+     ::placeholder {
+        /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #BCBCBC;
+        opacity: 1;
+        font: italic normal normal 24px/32px IBM Plex Serif;
+    }
+    
+    .form-control::-webkit-resizer {
+        display: none;
+    }
+    
+    #button1 {
+        color: #7E7E7E;
+        background-color: white;
+        height: 44px;
+        width: 56px;
+        font-size: 50px;
+        border: none;
+        padding-right: 111px;
+        padding-top: 40px;
+    }
+</style>
+
+<body>
+    <div class="close">
+        <a class="btn btn-primary" id="button1" href="http://127.0.0.1:8000/">X</a>
+    </div>
+    <form action="index" method="POST">
+        <!-- Message Box -->
+        <div class="center">
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1"></label>
+                <textarea class="form-control" id="message" rows="3" placeholder="Thank you for your strength in mind and body." maxlength="123" style="font-size: 32px;"></textarea>
+            </div>
+
+            <!-- Name box -->
+            <div id="col">
+                <textarea type="text" class="form-control" id="name" placeholder="Name (optional)" maxlength="30" style="font-size: 32px;"></textarea>
+            </div>
+            <div class="cap" style="padding-top: 20px;">
+                <script src='https://www.google.com/recaptcha/api.js '></script>
+                <div class="g-recaptcha" data-sitekey="6LejyMAaAAAAAFQR8Kfve0cBQ_sCcNWOvXSJXvpN"></div>
+            </div>
+            <div class="but" style="padding-top: 30px;">
+                <!-- Submit Button -->
+                <a class="btn btn-primary" id="button" href="last">Post</a>
+            </div>
+            <!-- <p>This is a test</p> -->
+        </div>
+    </form>
+
+
+</body>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500&display=swap" rel="stylesheet">
+<script>
+    $(document).ready(function() {
+        $("#button").click(function() {
+            url = "http://127.0.0.1:8000/save-data";
+            data = {
+                "name": $("#name").val(),
+                "message": $("#message").val(),
+                "csrfmiddlewaretoken": '{{ csrf_token }}'
+            };
+            dataType = "application/json";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                dataType: dataType,
+                complete: function(data) {
+                    alert(JSON.parse(data.responseText)["message"])
+                },
+            });
+        })
+    });
+</script>
+
+</html>
+
+
+
+
+
+
+<!-- <h2>HTML Forms</h2> -->
+
+<!-- <form action="" method="POST">
+        {% csrf_token %}
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="email">Email:</label><br>
+        <input type="text" id="email" name="email"><br>
+        <label for="message">Message:</label><br>
+        <input type="text" id="message" name="message"><br><br>
+        <input type="button" id="submit-btn" value="Submit">
+         <div class="g-recaptcha" data-sitekey="6LejyMAaAAAAAFQR8Kfve0cBQ_sCcNWOvXSJXvpN"></div> 
+        <label id="message"></label>
+    </form> -->
+
+
+
+
+
+
+
+
+<!-- <body>
+    <h1>Thanks Form</h1>
+    {% load social_share %}
+
+    <hr>
+    <form action="" method='POST '>
+        {% csrf_token %} {{form.as_p}}
+        <script src='https://www.google.com/recaptcha/api.js '></script>
+        <div class="g-recaptcha" data-sitekey="6LejyMAaAAAAAFQR8Kfve0cBQ_sCcNWOvXSJXvpN"></div>
+        <input type="submit"> {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %} {% post_to_twitter "{{message}}" %} {% post_to_facebook "{{message}}" %} {% post_to_linkedin "{{message}}" %} {% send_email "testing" "{{message}}" %}
+
+    </form>
+</body>
+
+</html> -->
